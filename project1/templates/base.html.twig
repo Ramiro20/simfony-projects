@@ -7,13 +7,22 @@
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
             {#{{ encore_entry_link_tags('app') }}#}
+            <link rel="stylesheet" href="{{asset('css/bootstrapmin.css')}}">
         {% endblock %}
 
         {% block javascripts %}
             {#{{ encore_entry_script_tags('app') }}#}
+             <script src="{{asset('js/bootstrap.bundle.js')}}"></script>
+             <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+             <script src="{{asset('js/bootstrap.js')}}"></script>
+             <script src="{{asset('js/bootstrap.min.js')}}"></script>
+             <script src="{{asset('js/jquery-3.6.0.min.js')}}"></script>
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+            <h1>hola desde la base</h1>
+        {% endblock %}
+
     </body>
 </html>

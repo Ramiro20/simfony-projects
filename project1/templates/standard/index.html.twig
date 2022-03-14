@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}}{% endblock %}
+{%  block stylesheet %}{{ parent() }}{% endblock %}
+{% block body %}
+{{parent()}}
+{# esto es un comentario #}
+<h2> {% set MiVariable = "Hola Mundo" %}</h2>
+<h4>{{MiVariable }} </h4>
+<h2>{{Sumaentrenumeerounoydos}}</h2>
+{% if nro1>nro2%}
+    numero 1 es mayor
+    {% else %}
+    Numero 2 es mayor
+{% endif %}
+
+<p>{{nombres | upper}}</p><br>
+{% set Arraynombres = nombres | split(' ') %}
+{% for nombre in Arraynombres %}
+<ul>
+    <li>{{nombre}}</li>
+</ul>
+{% endfor %}
+
+<br>
+<a href="{{ path('pagina2',{'nombre': 'Eleazar Ramiro Loayza Crespo'} )}}">Ir a pagina 2</a>
+{% endblock %}
+{% block javascripts %}{{parent()}}{% endblock %}
