@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Producto;
+use App\Entity\Categoria;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,4 +47,18 @@ class StandardController extends AbstractController
         );*/
         return $this->render('standard/number.html.twig',['number' => $number]);
     }
+
+    /**
+     * @Route("/PersistirDatos/",name="Persistir")
+     */
+    public function PersistDatos(){
+        $entityManager = $this->getDoctrine()->getManager();
+        $categoria = new Categoria('Tecnologia');
+        $producto = new Producto('TV LCD 32','Tv-02');
+        $producto->setCategoria($categoria);
+        $entityManager->persist($producto);
+        $entityManager->flush();
+        return $this->render('standard/success.html.twig');
+    }
+
 }
