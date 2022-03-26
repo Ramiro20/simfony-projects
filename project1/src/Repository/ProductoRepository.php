@@ -21,6 +21,19 @@ class ProductoRepository extends ServiceEntityRepository
         parent::__construct($registry, Producto::class);
     }
 
+    public function BuscarProductoPorId($id){
+        return $this->getEntityManager()
+        ->createQuery(
+                '
+                SELECT producto.id , producto.nombre, producto.codigo
+                FROM App\Entity\Producto producto
+                WHERE producto.id =:identificacion
+                '
+        )
+            ->setParameter('identificacion',$id)
+            ->getSingleResult();
+    }
+
     /**
      * @throws ORMException
      * @throws OptimisticLockException

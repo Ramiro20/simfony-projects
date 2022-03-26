@@ -1,0 +1,19 @@
+<h1>Busquedas</h1>
+{#{dump(find)}}br
+{{dump(findOneBy)}} <hr>
+{{dump(findBy)}} <hr>
+{{dump(findAll)}#}
+{{dump(findBy)}} <hr>
+
+
+<h1>Utilizando las consultas</h1>
+{{find.id}} - {{find.nombre}} - {{find.codigo}} <br>
+{{findOneBy.id}} - {{findOneBy.nombre}} - {{findOneBy.codigo}}<br>
+
+<b>aqui va los datos de la tabla producto</b><br>
+{% for producto in findBy %}
+    {{producto.id}} - {{producto.nombre}} - {{producto.codigo}} - {{producto.categoria.id}} - {{producto.categoria.nombre}} <br>
+{% endfor %}
+
+<br>
+{{ dump(BuscarProductoPorId)}}

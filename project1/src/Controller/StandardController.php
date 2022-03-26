@@ -14,6 +14,7 @@ class StandardController extends AbstractController
      * @Route("/", name="index")
      */
     public function index(){
+
         $n = 15554;
         $m = 125;
         $suma = $n+$m;
@@ -54,11 +55,30 @@ class StandardController extends AbstractController
     public function PersistDatos(){
         $entityManager = $this->getDoctrine()->getManager();
         $categoria = new Categoria('Tecnologia');
-        $producto = new Producto('TV LCD 32','Tv-02');
+        $producto = new Producto('TV LCD 32','Tv-01');
         $producto->setCategoria($categoria);
         $entityManager->persist($producto);
         $entityManager->flush();
         return $this->render('standard/success.html.twig');
+    }
+
+    /**
+     * @Route("/Busquedas/{idProducto}", name="Busquedas")
+     */
+    public function Busqueda($idProducto){
+        $sd = $this->getDoctrine()->getManager();
+        $producto = $sd->getRepository(Producto::class)->find(1);
+        $producto2 = $sd->getRepository(Producto::class)->findOneBy(['codigo'=>'Tv-01','nombre'=>'TV PANTALLA PLANA']);
+        $producto3 = $sd->getRepository(Producto::class)->findBy(['categoria'=>'1']);
+        $productos = $sd->getRepository(Producto::class)->findAll();
+        $productoRepository = $sd->getRepository(Producto::class)->BuscarProductoPorId($idProducto);
+        return $this->render('standard/busqueda.html.twig' ,array(
+            'find'=>$producto, 
+            'findOneBy'=>$producto2,
+            'findBy'=>$producto3,
+            'findAll'=>$productos,
+            'BuscarProductoPorId'=>$productoRepository
+            ));
     }
 
 }
