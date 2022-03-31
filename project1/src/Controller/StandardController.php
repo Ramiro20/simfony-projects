@@ -4,35 +4,77 @@ namespace App\Controller;
 
 use App\Entity\Producto;
 use App\Entity\Categoria;
+use App\Form\ProductoType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\DBAL\Types\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class StandardController extends AbstractController
 {
      /**
      * @Route("/", name="index")
      */
-    public function index(){
-
+    public function index(Request $request){
+        $user= $this->getUser();
+        if($user){
+        $producto = new Producto();
+        $form = $this->createForm(ProductoType::class,$producto);
         $n = 15554;
         $m = 125;
         $suma = $n+$m;
         $cad = "julio ever katherin";
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $producto = $form->getData();
+            $em->persist($producto);
+            $em->flush();
+            return $this->redirectToRoute('index');
+        }
         return $this->render('standard/index.html.twig',
             array(
                 'Sumaentrenumeerounoydos'=>$suma,
                 'nro1'=>$n,
                 'nro2'=>$m,
-                'nombres'=>$cad)
-        ); 
+                'nombres'=>$cad,
+                'form'=>$form->createView()
+                )
+        );
+        }else{
+            return $this->redirectToRoute('fos_user_security_login');
+        } 
     }
 
     /**
       * @Route("/pagina2/{nombre}" , name="pagina2")
       */
-    public function pagina2($nombre){
-        return $this->render('standard/pagina2.html.twig',array('parametro1'=>$nombre));
+    public function pagina2(Request $request,$nombre){
+        $form = $this->createFormBuilder()
+          ->add('nombre')
+          ->add('codigo')
+          ->add('categoria', EntityType::class, [
+            'class' => Categoria::class,
+            'choice_label' => 'nombre'
+          ])
+          ->add('Enviar', SubmitType::class, array('label' => 'Enviar'))
+          ->getForm();
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $data= $form->getData();
+            $producto = new Producto($data['nombre'],$data['codigo']);
+            $producto->setCategoria($data['categoria']);
+            $em->persist($producto);
+            $em->flush();
+            return $this->redirectToRoute('pagina2',['nombre'=>'Guardado Exitoso']);
+        }
+
+        return $this->render('standard/pagina2.html.twig',array('parametro1'=>$nombre, 'form'=>$form->createView()));
     }
 
     /**

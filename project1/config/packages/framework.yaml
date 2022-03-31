@@ -1,5 +1,6 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
+    translator: ~
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
     #http_method_override: true
@@ -15,3 +16,16 @@ framework:
     #fragments: true
     php_errors:
         log: true
+
+fos_user:
+    registration:
+            confirmation:
+                enabled: true
+    db_driver: orm
+    firewall_name: main
+    user_class: App\Entity\User
+    from_email:
+           address: correo@algo.com
+           sender_name: Test
+    service:
+            mailer: 'fos_user.mailer.noop'

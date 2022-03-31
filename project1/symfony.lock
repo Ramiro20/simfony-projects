@@ -85,6 +85,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
+    "friendsofsymfony/user-bundle": {
+        "version": "v2.2.4"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
@@ -491,6 +494,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.38"
+    },
+    "symfony/templating": {
+        "version": "v4.4.37"
     },
     "symfony/translation": {
         "version": "4.4",
